@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora Profesional</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #e3e3e3;
+      margin: 0;
+    }
+
+    .calculadora {
+      background: #1e1e2f;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      width: 320px;
+    }
+
+    .pantalla {
+      background: #111;
+      color: white;
+      text-align: right;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 2em;
+      margin-bottom: 20px;
+      min-height: 60px;
+      word-wrap: break-word;
+    }
+
+    .teclado {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .boton {
+      padding: 20px;
+      font-size: 1.4em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .numero {
+      background: #2e2e3e;
+      color: white;
+    }
+
+    .numero:hover {
+      background: #3b3b50;
+    }
+
+    .operador {
+      background: #f39c12;
+      color: white;
+    }
+
+    .operador:hover {
+      background: #e67e22;
+    }
+
+    .especial {
+      background: #c0392b;
+      color: white;
+    }
+
+    .especial:hover {
+      background: #e74c3c;
+    }
+
+    .boton-igual {
+      grid-column: span 2;
+      background: #27ae60;
+    }
+
+    .boton-igual:hover {
+      background: #2ecc71;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculadora">
+    <div id="pantalla" class="pantalla">0</div>
+    <div class="teclado">
+      <button class="boton especial" onclick="borrarTodo()">C</button>
+      <button class="boton especial" onclick="borrarUltimo()">←</button>
+      <button class="boton operador" onclick="agregar('%')">%</button>
+      <button class="boton operador" onclick="agregar('/')">÷</button>
+
+      <button class="boton numero" onclick="agregar('7')">7</button>
+      <button class="boton numero" onclick="agregar('8')">8</button>
+      <button class="boton numero" onclick="agregar('9')">9</button>
+      <button class="boton operador" onclick="agregar('*')">×</button>
+
+      <button class="boton numero" onclick="agregar('4')">4</button>
+      <button class="boton numero" onclick="agregar('5')">5</button>
+      <button class="boton numero" onclick="agregar('6')">6</button>
+      <button class="boton operador" onclick="agregar('-')">−</button>
+
+      <button class="boton numero" onclick="agregar('1')">1</button>
+      <button class="boton numero" onclick="agregar('2')">2</button>
+      <button class="boton numero" onclick="agregar('3')">3</button>
+      <button class="boton operador" onclick="agregar('+')">+</button>
+
+      <button class="boton numero" onclick="agregar('0')">0</button>
+      <button class="boton numero" onclick="agregar('.')">.</button>
+      <button class="boton boton-igual" onclick="calcular()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let pantalla = document.getElementById('pantalla');
+    let operacion = '';
+
+    function agregar(valor) {
+      if (pantalla.textContent === '0' && valor !== '.') {
+        operacion = '';
+      }
+      operacion += valor;
+      pantalla.textContent = operacion;
+    }
+
+    function borrarTodo() {
+      operacion = '';
+      pantalla.textContent = '0';
+    }
+
+    function borrarUltimo() {
+      operacion = operacion.slice(0, -1);
+      pantalla.textContent = operacion || '0';
+    }
+
+    function calcular() {
+      try {
+        let resultado = eval(operacion.replace('%', '/100'));
+        pantalla.textContent = resultado;
+        operacion = resultado.toString();
+      } catch {
+        pantalla.textContent = 'Error';
+        operacion = '';
+      }
+    }
+  </script>
+</body>
+</html>
